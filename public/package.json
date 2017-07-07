@@ -8,6 +8,12 @@
     "node": "6.9.1",
     "npm": "3.10.7"
   },
+  "dependencies": {
+    "electron-remote": "^1.1.2",
+    "electron": "^1.6.11",
+    "keypair": "^1.0.1",
+    "socket.io": "^2.0.3"
+  },
   "homepage": ".",
   "main": "electron-starter.js"
 }
