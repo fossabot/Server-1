@@ -117,7 +117,6 @@
   },
   "build": {
     "appId": "NetworkCanvasServer",
-    "asar": false,
     "directories": {
       "app": "./build",
       "buildResources": "build-resources",
@@ -140,7 +139,7 @@
       "<rootDir>/config/polyfills.js"
     ],
     "testPathIgnorePatterns": [
-      "<rootDir>[/\\\\](build|docs|node_modules|scripts)[/\\\\]"
+      "<rootDir>[/\\\\](build|docs|node_modules|scripts|release-builds)[/\\\\]"
     ],
     "testEnvironment": "node",
     "testURL": "http://localhost",
