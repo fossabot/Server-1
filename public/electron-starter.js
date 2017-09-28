@@ -48,6 +48,7 @@ ipcMain.on('REQUEST_SERVER_OVERVIEW', () => {
 app.on('ready', () => {
   app.dock.hide();
   createTray(trayMenu);
+  mainWindow.open('/overview');
 });
 
 // Don't quit when all windows are closed.
