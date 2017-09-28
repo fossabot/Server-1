@@ -47,7 +47,7 @@ ipcMain.on('REQUEST_SERVER_OVERVIEW', () => {
 
 app.on('ready', () => {
   app.dock.hide();
-  createTray(trayMenu);
+  app.tray = createTray(trayMenu);
   mainWindow.open('/overview');
 });
 
