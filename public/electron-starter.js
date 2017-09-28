@@ -13,11 +13,15 @@ const mainWindow = createMainWindow();
 createServer(8080, settingsDb).then((serverProcess) => {
   server = serverProcess;
 
+  console.log('server is up');
+
   server.on(
     'SERVER_STATUS',
     ({ data }) =>
-      mainWindow.send('SERVER_OVERVIEW', data)
+      console.log('SEREVE STATUS', data)
   );
+
+  server.send({ action: 'REQUEST_SERVER_STATUS' });
 });
 
 const trayMenu = [
