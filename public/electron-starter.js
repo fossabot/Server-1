@@ -17,9 +17,7 @@ createServer(8080, settingsDb).then((serverProcess) => {
     serverProcess.on(
       'SERVER_STATUS',
       ({ data }) => {
-        console.log(data);
         event.sender.send('SERVER_STATUS', data);
-        // ipcMain.send('SERVER_STATUS', data);
       }
     );
 
@@ -43,9 +41,8 @@ const trayMenu = [
 ];
 
 app.on('ready', () => {
-  // app.dock.hide();
-  // app.tray = createTray(trayMenu);
-  mainWindow.open('/overview');
+  app.dock.hide();
+  app.tray = createTray(trayMenu);
 });
 
 // Don't quit when all windows are closed.

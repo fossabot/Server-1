@@ -21,7 +21,6 @@ class ServerPanel extends Component {
     this.server = new Server();
 
     this.server.on('SERVER_STATUS', (data) => {
-      console.log('SERVER_STATUS', data);
       this.setState({ serverOverview: data });
     });
 

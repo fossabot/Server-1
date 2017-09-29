@@ -1,4 +1,5 @@
 const { createServer } = require('./components/serverManager');
+const path = require('path');
 
 createServer(8080).then((serverProcess) => {
   serverProcess.on(
