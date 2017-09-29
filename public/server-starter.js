@@ -1,7 +1,9 @@
 const { createServer } = require('./components/serverManager');
 const path = require('path');
 
-createServer(8080).then((serverProcess) => {
+const appSettingsDB = path.join(path.resolve(__dirname), '../', 'db', 'settings');
+
+createServer(8080, appSettingsDB).then((serverProcess) => {
   serverProcess.on(
     'SERVER_STATUS',
     ({ data }) => {

@@ -42,9 +42,6 @@ const ensurePemKeyPair = (currentAppSettings) => {
 };
 
 const startServer = (port, settingsDb) => {
-  if (!port) { throw new Error('You must specify a server port'); }
-  if (!settingsDb) { throw new Error('You must specify a settings database'); }
-
   const appSettings = settings(new Datastore({ filename: settingsDb, autoload: true }));
 
   return appSettings.get()
@@ -69,6 +66,9 @@ const serverTaskHandler = server =>
   };
 
 if (require.main === module) {
+  if (!process.env.PORT) { throw new Error('You must specify a server port'); }
+  if (!process.env.APP_SETTINGS_DB) { throw new Error('You must specify a settings database'); }
+
   startServer(process.env.PORT, process.env.APP_SETTINGS_DB).then((server) => {
     process.on('message', serverTaskHandler(server));
     process.send({ action: SERVER_READY });
@@ -99,9 +99,13 @@ class ServerProcess {
   }
 }
 
-const createServer = (port, db) =>
-  new Promise((resolve) => {
-    const ps = fork(`${__filename}`, [], { env: { PORT: port, APP_SETTINGS_DB: db } });
+const createServer = (port, db) => {
+  if (!port) { throw new Error('You must specify a server port'); }
+  if (!db) { throw new Error('You must specify a settings database'); }
+
+  return new Promise((resolve) => {
+    const env = { PORT: port, APP_SETTINGS_DB: db };
+    const ps = fork(`${__filename}`, [], { env });
     ps.on('message', ({ action }) => {
       if (action === SERVER_READY) {
         resolve(new ServerProcess({
@@ -110,6 +114,7 @@ const createServer = (port, db) =>
       }
     });
   });
+};
 
 module.exports = {
   createServer,
