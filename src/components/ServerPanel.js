@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { PanelItem } from '../components';
+import Server from '../utils/Server';
 
 const defaultServerOverview = {
   ip: 'x.x.x.x',
@@ -17,10 +17,19 @@ class ServerPanel extends Component {
       version: '0.0.0',
       notes: '',
     };
+
+    this.server = new Server();
+
+    this.server.on('SERVER_STATUS', (data) => {
+      console.log('SERVER_STATUS', data);
+      this.setState({ serverOverview: data });
+    });
+
+    this.server.requestServerStatus();
   }
 
   render() {
-    const { serverOverview } = this.props;
+    const { serverOverview } = this.state;
 
     const overview = { ...defaultServerOverview, ...serverOverview };
     return (
@@ -33,13 +42,5 @@ class ServerPanel extends Component {
     );
   }
 }
-
-ServerPanel.propTypes = {
-  serverOverview: PropTypes.object,
-};
-
-ServerPanel.defaultProps = {
-  serverOverview: defaultServerOverview,
-};
 
 export default ServerPanel;

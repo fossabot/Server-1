@@ -13,15 +13,18 @@ const mainWindow = createMainWindow();
 createServer(8080, settingsDb).then((serverProcess) => {
   server = serverProcess;
 
-  console.log('server is up');
+  ipcMain.on('REQUEST_SERVER_STATUS', (event) => {
+    serverProcess.on(
+      'SERVER_STATUS',
+      ({ data }) => {
+        console.log(data);
+        event.sender.send('SERVER_STATUS', data);
+        // ipcMain.send('SERVER_STATUS', data);
+      }
+    );
 
-  server.on(
-    'SERVER_STATUS',
-    ({ data }) =>
-      console.log('SEREVE STATUS', data)
-  );
-
-  server.send({ action: 'REQUEST_SERVER_STATUS' });
+    serverProcess.send({ action: 'REQUEST_SERVER_STATUS' });
+  });
 });
 
 const trayMenu = [
@@ -39,15 +42,10 @@ const trayMenu = [
   },
 ];
 
-ipcMain.on('REQUEST_SERVER_OVERVIEW', () => {
-  if (!server) { return; }
-
-  server.send({ action: 'REQUEST_SERVER_STATUS' });
-});
-
 app.on('ready', () => {
-  app.dock.hide();
-  app.tray = createTray(trayMenu);
+  // app.dock.hide();
+  // app.tray = createTray(trayMenu);
+  mainWindow.open('/overview');
 });
 
 // Don't quit when all windows are closed.
