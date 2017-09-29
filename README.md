@@ -18,11 +18,15 @@ The UI is a React app which runs in Electron's BrowserWindow().
 
 It is possible to test the UI by running `npm run start`, and viewing the various paths in your browser.
 
+In this mode electron and the sockets server will be unavailable, and the electron lib is mocked with logging statements.
+
 ### 2. The server
 
 The actual HTTP/Sockets server runs in a fork managed by the main process.
 
 The main process itself acts a go-between for the UI and the server process.
+
+The server can be run headlessly using: `npm run headless`.
 
 ## Installation
 This repository assumes that `npm` is installed. If you don't have it installed, here are [installation instructions](https://docs.npmjs.com/getting-started/installing-node).
@@ -32,7 +36,6 @@ This repository assumes that `npm` is installed. If you don't have it installed,
 
 |`npm run <script>`|Description|
 |------------------|-----------|
-|`start`|Serves your app at `localhost:3000`.|
 |`build`|Compiles assets and prepares app for production in the /build directory.|
 |`test`|Runs testing suite.|
 |`build-docs`|Builds HTML API docs into the docs-build directory.|
@@ -40,7 +43,7 @@ This repository assumes that `npm` is installed. If you don't have it installed,
 
 ## Running
 
-To run the UI:
+To run the UI (UI only, without electron/server):
 
 ```sh
 npm run start
